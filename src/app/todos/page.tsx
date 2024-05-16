@@ -1,3 +1,5 @@
+"use client";
+
 import {
   useForm,
   getFormProps,
@@ -25,7 +27,7 @@ export default function Page() {
   return (
     <form action={action} {...getFormProps(form)}>
       <div>
-        <label>Title</label>
+        <label>Title：</label>
         <input
           className={!fields.title.valid ? "error" : ""}
           {...getInputProps(fields.title, { type: "text" })}
@@ -33,7 +35,9 @@ export default function Page() {
         />
         <div>{fields.title.errors}</div>
       </div>
-      <hr />
+
+      <br />
+
       <div className="form-error">{fields.tasks.errors}</div>
       {tasks.map((task, index) => {
         const taskFields = task.getFieldset();
@@ -89,10 +93,16 @@ export default function Page() {
           </fieldset>
         );
       })}
+
+      <br />
+
       <Button {...form.insert.getButtonProps({ name: fields.tasks.name })}>
         Add task
       </Button>
-      <hr />
+
+      <br />
+      <br />
+
       <Button>Save</Button>
     </form>
   );

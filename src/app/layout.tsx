@@ -31,6 +31,7 @@ export default function RootLayout({
               <Link href="todos">todos</Link>
             </li>
           </ul>
+          <hr />
         </main>
         {children}
       </body>

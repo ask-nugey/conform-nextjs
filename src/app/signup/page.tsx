@@ -1,3 +1,5 @@
+"use client";
+
 import { useForm, getFormProps, getInputProps } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
@@ -23,7 +25,7 @@ export default function Page() {
   return (
     <form action={action} {...getFormProps(form)}>
       <label>
-        <div>Username</div>
+        <div>Username：</div>
         <input
           className={!fields.username.valid ? "error" : ""}
           {...getInputProps(fields.username, { type: "text" })}
@@ -31,8 +33,9 @@ export default function Page() {
         />
         <div>{fields.username.errors}</div>
       </label>
+
       <label>
-        <div>Password</div>
+        <div>Password：</div>
         <input
           className={!fields.password.valid ? "error" : ""}
           {...getInputProps(fields.password, { type: "password" })}
@@ -40,8 +43,9 @@ export default function Page() {
         />
         <div>{fields.password.errors}</div>
       </label>
+
       <label>
-        <div>Confirm Password</div>
+        <div>Confirm Password：</div>
         <input
           className={!fields.confirmPassword.valid ? "error" : ""}
           {...getInputProps(fields.confirmPassword, { type: "password" })}
@@ -49,7 +53,9 @@ export default function Page() {
         />
         <div>{fields.confirmPassword.errors}</div>
       </label>
-      <hr />
+
+      <br />
+
       <Button>Signup</Button>
     </form>
   );

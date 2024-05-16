@@ -11,22 +11,17 @@ import { Button } from "@/components/Button";
 export default function Page() {
   const [lastResult, action] = useFormState(login, undefined);
   const [form, fields] = useForm({
-    // Sync the result of last submission
     lastResult,
-
-    // Reuse the validation logic on the client
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: loginSchema });
     },
-
-    // Validate the form on blur event triggered
     shouldValidate: "onBlur",
   });
 
   return (
     <form action={action} {...getFormProps(form)}>
       <div>
-        <label>Email</label>
+        <label>Email：</label>
         <input
           className={!fields.email.valid ? "error" : ""}
           {...getInputProps(fields.email, { type: "text" })}
@@ -36,7 +31,7 @@ export default function Page() {
       </div>
 
       <div>
-        <label>Password</label>
+        <label>Password：</label>
         <input
           className={!fields.password.valid ? "error" : ""}
           {...getInputProps(fields.password, { type: "password" })}
@@ -47,12 +42,12 @@ export default function Page() {
 
       <label>
         <div>
-          <span>Remember me</span>
+          <span>Remember me：</span>
           <input {...getInputProps(fields.remember, { type: "checkbox" })} />
         </div>
       </label>
 
-      <hr />
+      <br />
 
       <Button>Login</Button>
     </form>
