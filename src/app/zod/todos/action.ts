@@ -1,12 +1,15 @@
 "use server";
+
 import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
 
-import { loginSchema } from "@/app/login/schema";
-export async function login(prevState: unknown, formData: FormData) {
+import { todosSchema } from "./schema";
+
+export async function createTodos(prevState: unknown, formData: FormData) {
   const submission = parseWithZod(formData, {
-    schema: loginSchema,
+    schema: todosSchema,
   });
+
   if (submission.status !== "success") {
     return submission.reply();
   }

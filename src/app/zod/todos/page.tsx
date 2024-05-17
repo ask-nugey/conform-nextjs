@@ -9,18 +9,19 @@ import {
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
 
-import { createTodos } from "@/app/todos/action";
-import { todosSchema } from "@/app/todos/schema";
+import { createTodos } from "./action";
+import { todosSchema } from "./schema";
+
 import { Button } from "@/components/Button";
 
 export default function Page() {
   const [lastResult, action] = useFormState(createTodos, undefined);
   const [form, fields] = useForm({
-    lastResult,
+    lastResult, // 前回のフォーム送信結果
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: todosSchema });
     },
-    shouldValidate: "onBlur",
+    shouldValidate: "onBlur", // フィールドのフォーカスが外れたときにバリデーションを実行
   });
   const tasks = fields.tasks.getFieldList();
 

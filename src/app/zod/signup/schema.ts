@@ -12,23 +12,23 @@ export function createSignupSchema(
   return z
     .object({
       username: z
-        .string({ required_error: "Username is required" })
+        .string({ required_error: "Username is required" }) // ユーザ名は必須
         .regex(
           /^[a-zA-Z0-9]+$/,
-          "Invalid username: only letters or numbers are allowed"
+          "Invalid username: only letters or numbers are allowed" // ユーザ名は英数字のみ許可
         )
-        // Pipe the schema so it runs only if the username is valid
+        // スキーマをパイプしてユーザ名が有効な場合のみ実行
         .pipe(
           z.string().superRefine((username, ctx) => {
             const isValidatingUsername =
               intent === null ||
               (intent.type === "validate" &&
-                intent.payload.name === "username");
+                intent.payload.name === "username"); // ユーザ名のバリデーションを実行するかどうかをチェック
 
             if (!isValidatingUsername) {
               ctx.addIssue({
                 code: "custom",
-                message: conformZodMessage.VALIDATION_SKIPPED,
+                message: conformZodMessage.VALIDATION_SKIPPED, // バリデーションがスキップされたことを示すメッセージ
               });
               return;
             }
@@ -36,8 +36,8 @@ export function createSignupSchema(
             if (typeof options?.isUsernameUnique !== "function") {
               ctx.addIssue({
                 code: "custom",
-                message: conformZodMessage.VALIDATION_UNDEFINED,
-                fatal: true,
+                message: conformZodMessage.VALIDATION_UNDEFINED, // バリデーションが定義されていないことを示すメッセージ
+                fatal: true, // 致命的なエラー
               });
               return;
             }
@@ -46,7 +46,7 @@ export function createSignupSchema(
               if (!isUnique) {
                 ctx.addIssue({
                   code: "custom",
-                  message: "Username is already used",
+                  message: "Username is already used", // ユーザ名が既に使用されていることを示すメッセージ
                 });
               }
             });
@@ -56,14 +56,14 @@ export function createSignupSchema(
     .and(
       z
         .object({
-          password: z.string({ required_error: "Password is required" }),
+          password: z.string({ required_error: "Password is required" }), // パスワードは必須
           confirmPassword: z.string({
-            required_error: "Confirm password is required",
+            required_error: "Confirm password is required", // 確認用パスワードは必須
           }),
         })
         .refine((data) => data.password === data.confirmPassword, {
-          message: "Password does not match",
-          path: ["confirmPassword"],
+          message: "Password does not match", // パスワードが一致しない場合のメッセージ
+          path: ["confirmPassword"], // エラーが表示されるフィールド
         })
     );
 }

@@ -4,22 +4,24 @@ import { useForm, getFormProps, getInputProps } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
 
-import { signup } from "@/app/signup/action";
-import { createSignupSchema } from "@/app/signup/schema";
+import { signup } from "./action";
+import { createSignupSchema } from "./schema";
+
 import { Button } from "@/components/Button";
 
 export default function Page() {
   const [lastResult, action] = useFormState(signup, undefined);
   const [form, fields] = useForm({
-    lastResult,
+    lastResult, // 前回のフォーム送信結果
     onValidate({ formData }) {
+      // フォームデータをZodでバリデーション
       return parseWithZod(formData, {
-        // Create the schema without any constraint defined
+        // 制約なしでスキーマを作成
         schema: (control) => createSignupSchema(control),
       });
     },
-    shouldValidate: "onBlur",
-    shouldRevalidate: "onInput",
+    shouldValidate: "onBlur", // フィールドのフォーカスが外れたときにバリデーションを実行
+    shouldRevalidate: "onInput", // フィールドの入力時に再バリデーションを実行
   });
 
   return (

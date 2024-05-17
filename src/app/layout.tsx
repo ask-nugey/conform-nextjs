@@ -20,15 +20,17 @@ export default function RootLayout({
       <body className={inter.className}>
         <main>
           <h1>conform-nextjs</h1>
+
+          <h2>zod</h2>
           <ul>
             <li>
-              <Link href="login">login</Link>
+              <Link href="/zod/login">login</Link>
             </li>
             <li>
-              <Link href="signup">signup</Link>
+              <Link href="/zod/signup">signup</Link>
             </li>
             <li>
-              <Link href="todos">todos</Link>
+              <Link href="/zod/todos">todos</Link>
             </li>
           </ul>
           <hr />

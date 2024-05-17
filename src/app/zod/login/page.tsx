@@ -4,18 +4,20 @@ import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
 
-import { login } from "@/app/login/action";
-import { loginSchema } from "@/app/login/schema";
+import { login } from "./action";
+import { loginSchema } from "./schema";
+
 import { Button } from "@/components/Button";
 
 export default function Page() {
   const [lastResult, action] = useFormState(login, undefined);
   const [form, fields] = useForm({
-    lastResult,
+    lastResult, // 前回のフォーム送信結果
     onValidate({ formData }) {
+      // フォームデータをZodでバリデーション
       return parseWithZod(formData, { schema: loginSchema });
     },
-    shouldValidate: "onBlur",
+    shouldValidate: "onBlur", // フィールドのフォーカスが外れたときにバリデーションを実行
   });
 
   return (

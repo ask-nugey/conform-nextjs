@@ -3,7 +3,7 @@
 import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
 
-import { createSignupSchema } from "@/app/signup/schema";
+import { createSignupSchema } from "./schema";
 
 export async function signup(prevState: unknown, formData: FormData) {
   const submission = await parseWithZod(formData, {
@@ -13,17 +13,19 @@ export async function signup(prevState: unknown, formData: FormData) {
         isUsernameUnique(username) {
           return new Promise((resolve) => {
             setTimeout(() => {
-              resolve(username !== "admin");
+              resolve(username !== "admin"); // "admin"ユーザ名は既に使用されていると見なす
             }, Math.random() * 300);
           });
         },
       }),
-    async: true,
+    async: true, // 非同期バリデーションを実行
   });
 
+  // バリデーション失敗時の処理
   if (submission.status !== "success") {
     return submission.reply();
   }
 
+  // バリデーション成功時にリダイレクト
   redirect(`/?value=${JSON.stringify(submission.value)}`);
 }
